@@ -25,7 +25,7 @@ $message = $input['entry'][0]['messaging'][0]['message']['text'];
 
 $reply = 'I do not understand. Ask me to tell a Joke';
 
-if(preg_match('/(send|tell|text)(.*?)joke/', $message)){
+if(preg_match('/(Send|send|Tell|tell|Text|text)(.*?)joke/', $message)){
 	$res = json_decode(file_get_contents('http://api.icndb.com/jokes/random'), true);
     $reply = $res['value']['joke'];
 	}
