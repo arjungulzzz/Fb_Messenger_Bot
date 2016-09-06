@@ -1,6 +1,6 @@
 <?php
 
-$accessToken='TOKEN HERE';
+$accessToken='';
 if(isset($_REQUEST['hub_challenge']))
 {{
  $challenge = $_REQUEST['hub_challenge'];
@@ -16,9 +16,20 @@ $userID = $input['entry'][0]['messaging'][0]['sender']['id'];
 
 $message = $input['entry'][0]['messaging'][0]['message']['text'];
 
-echo $userID." and ".$message;
+//echo $userID." and ".$message;
 
 //..............
+// send me a joke
+//tell me a joke
+// text me a good joke
+
+$reply = 'I do not understand. Ask me to tell a Joke';
+
+if(preg_match('/(send|tell|text)(.*?)joke/', $message)){
+	$res = json_decode(file_get_contents('http://api.icndb.com/jokes/random'), true);
+    $reply = $res['value']['joke'];
+	}
+
 
 $url = "https://graph.facebook.com/v2.6/me/messages?access_token=$accessToken";
 
@@ -27,7 +38,7 @@ $jsonData = "{
 		'id':$userID
 	},
 	'message':{
-		'text': 'hello bro'
+		'text': '".addslashes($reply)."'
 	}
 }";
 
